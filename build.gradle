@@ -26,7 +26,7 @@ jar {
     archiveBaseName = 'geektrust' //Please do not change this final artifact name
     version =  null               //Please do not change this final artifact version
     manifest {
-        attributes 'Main-Class' : 'com.test.faber-test.FaberTestApplication' //Change this to the main class of your program which will be executed
+        attributes 'Main-Class' : 'com.example.fabergrp.FaberGrpApplication' //Change this to the main class of your program which will be executed
     }
     // To create a single jar with all dependencies.
     from {
@@ -61,5 +61,7 @@ repositories {
 
 //Add your dependencies here
 dependencies {
+    compileOnly 'org.projectlombok:lombok:0.11.0'
+
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version:'5.2.0'
 }
