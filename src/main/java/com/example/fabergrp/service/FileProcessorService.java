@@ -18,16 +18,18 @@ public class FileProcessorService {
     @Getter
     static boolean isBillBeingGenerated = false; //Check if the command BILL exists in the command set. If not, don't process any commands
 
+    private FileProcessorService() {}
+
     /*
         This method reads the commands from the raw text file
     */
     public static List<Operation> readFileAndGetCommands(String filePath) throws IOException {
-        BufferedReader bufferedReader = null;
-        try {
-            URL url = new URL(filePath);
-            bufferedReader = new BufferedReader(
-                    new InputStreamReader(url.openStream()));
+        URL url = new URL(filePath);
+        try (
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream())) //This makes sure BR is closed
+        ) {
 
+            //Prepare each command as an operation and collect into a list
             return bufferedReader.lines()
                     .filter(Objects::nonNull)
                     .map(FileProcessorService::prepareCommand)
@@ -37,8 +39,6 @@ public class FileProcessorService {
             throw new FaberGrpException("Exception occurred while processing the file, error message is : \""+exception.getMessage() + "\"");
         } catch (InvalidCommandException exception) {
             throw new FaberGrpException(exception.getMessage());
-        } finally {
-            bufferedReader.close();
         }
     }
 
@@ -53,7 +53,7 @@ public class FileProcessorService {
 
               int actualNoOfArgs = paramsInCommand.length - 1;
               if (command.getNoOfArgs() != actualNoOfArgs)
-                  throw new Exception("The number of parameters don't match the requirement of the command! Got " + actualNoOfArgs + ", required: " + command.getNoOfArgs());
+                  throw new IOException("The number of parameters don't match the requirement of the command! Got " + actualNoOfArgs + ", required: " + command.getNoOfArgs());
 
               List<String> commandArgs = Arrays.stream(paramsInCommand).skip(1).collect(Collectors.toList());
 
