@@ -8,8 +8,6 @@ import com.example.fabergrp.model.Operation;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -22,16 +20,10 @@ public class FileProcessorService {
     /*
         This method reads the commands from the raw text file
     */
-    public static List<Operation> readFileAndGetCommands(String option, String filePath) throws IOException {
-        BufferedReader bufferedReader;
-        try {
-            if (option.equals("URL")) {
-                URL url = new URL(filePath);
-                bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
-            } else {
-                bufferedReader = new BufferedReader(new FileReader(filePath));
-            }
-
+    public static List<Operation> readFileAndGetCommands(String filePath) throws IOException {
+        try (
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath)) //Make sure the resources are cleaned
+        ) {
             //Prepare each command as an operation and collect into a list
             return bufferedReader.lines()
                     .filter(Objects::nonNull)
