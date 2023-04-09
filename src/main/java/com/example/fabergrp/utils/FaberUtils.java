@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class FaberUtils {
 
-    public static String validateFilePathForTextFile( String path) throws IOException {
+    public static String validateFilePathForTextFile(String path) throws IOException {
         if (path.endsWith(".txt") || path.endsWith(".text"))
             return path;
         else

@@ -65,4 +65,5 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.26'
 
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version:'5.2.0'
+    testImplementation 'junit:junit:4.13.2'
 }
