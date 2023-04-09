@@ -1,12 +1,12 @@
 package com.example.fabergrp.service;
 
 import com.example.fabergrp.constants.Command;
-import com.example.fabergrp.exceptions.FaberGrpException;
+import com.example.fabergrp.exceptions.WaterBillGenerationException;
 import com.example.fabergrp.exceptions.InvalidCommandException;
 import com.example.fabergrp.model.Operation;
-import lombok.Getter;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -15,30 +15,34 @@ import java.util.stream.Collectors;
 
 public class FileProcessorService {
 
-    @Getter
-    static boolean isBillBeingGenerated = false; //Check if the command BILL exists in the command set. If not, don't process any commands
+    public static boolean isBillBeingGenerated = false; //Check if the command BILL exists in the command set. If not, don't process any commands
 
     private FileProcessorService() {}
 
     /*
         This method reads the commands from the raw text file
     */
-    public static List<Operation> readFileAndGetCommands(String filePath) throws IOException {
-        URL url = new URL(filePath);
-        try (
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream())) //This makes sure BR is closed
-        ) {
+    public static List<Operation> readFileAndGetCommands(String option, String filePath) throws IOException {
+        BufferedReader bufferedReader;
+        try {
+            if (option.equals("URL")) {
+                URL url = new URL(filePath);
+                bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
+            } else {
+                bufferedReader = new BufferedReader(new FileReader(filePath));
+            }
 
             //Prepare each command as an operation and collect into a list
             return bufferedReader.lines()
                     .filter(Objects::nonNull)
+                    .filter(line -> !line.isEmpty())
                     .map(FileProcessorService::prepareCommand)
                     .collect(Collectors.toList());
 
         } catch (IOException exception) {
-            throw new FaberGrpException("Exception occurred while processing the file, error message is : \""+exception.getMessage() + "\"");
+            throw new WaterBillGenerationException("Exception occurred while processing the file, error message is : \""+exception.getMessage() + "\"");
         } catch (InvalidCommandException exception) {
-            throw new FaberGrpException(exception.getMessage());
+            throw new WaterBillGenerationException(exception.getMessage());
         }
     }
 
@@ -52,8 +56,8 @@ public class FileProcessorService {
                   isBillBeingGenerated = true;
 
               int actualNoOfArgs = paramsInCommand.length - 1;
-              if (command.getNoOfArgs() != actualNoOfArgs)
-                  throw new IOException("The number of parameters don't match the requirement of the command! Got " + actualNoOfArgs + ", required: " + command.getNoOfArgs());
+              if (command.getArgsCount() != actualNoOfArgs)
+                  throw new IOException("The number of parameters don't match the requirement of the command! Got " + actualNoOfArgs + ", required: " + command.getArgsCount());
 
               List<String> commandArgs = Arrays.stream(paramsInCommand).skip(1).collect(Collectors.toList());
 

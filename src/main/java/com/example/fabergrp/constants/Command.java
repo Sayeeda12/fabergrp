@@ -1,25 +1,21 @@
 package com.example.fabergrp.constants;
 
+import com.example.fabergrp.service.BillGenerationService;
 import com.example.fabergrp.service.GuestAdditionService;
 import com.example.fabergrp.service.OperationsService;
 import com.example.fabergrp.service.WaterAllotmentService;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.function.Supplier;
 
-@RequiredArgsConstructor
 @AllArgsConstructor
-@Getter
+@Getter(AccessLevel.PUBLIC)
 public enum Command {
     ALLOT_WATER(2, WaterAllotmentService::getInstance),
     ADD_GUESTS(1, GuestAdditionService::getInstance),
-    BILL(0);
+    BILL(0, BillGenerationService::getInstance);
 
-    @NonNull
-    private int noOfArgs;
+    private int argsCount;
 
     private Supplier<? extends OperationsService> service;
 
