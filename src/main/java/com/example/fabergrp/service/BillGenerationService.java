@@ -14,7 +14,7 @@ public class BillGenerationService implements OperationsService {
     private static final BillGenerationService instance = new BillGenerationService();
 
     @Override
-    public String executeOperation(List<String> commands, Apartment apartment) {
+    public String executeOperation(List<String> args, Apartment apartment) {
         if (!apartment.isWaterAllotted)
             throw new WaterBillGenerationException("Cannot generate bill as the water isn't allocated to the apartment yet.");
 
@@ -26,7 +26,7 @@ public class BillGenerationService implements OperationsService {
         long defaultWaterCost = calculateDefaultWaterCostBasedOnRatio(apartment);
 
         //Calculate total cost for guests based on slabs
-        long additionalGuests = apartment.getTotalGuests() - (long) apartment.getApartmentType().getNoOfPeople();
+        long additionalGuests = apartment.getTotalGuests() - apartment.getApartmentType().getNoOfPeople();
 
         long additionalWaterCostForGuests = calculateAdditionalCostBasedOnSlabs(additionalGuests);
 

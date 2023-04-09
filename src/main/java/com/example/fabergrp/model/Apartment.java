@@ -13,12 +13,15 @@ public class Apartment {
     int totalNoOfDaysInAMonth = 30;
     int waterInLitresPerPerson = 10;
 
-    public void allotWaterToTheApartment(ApartmentType apartmentType, int corporationShare, int totalShare, long totalGuests) {
-        this.corporationShare = corporationShare;
-        this.totalShare = totalShare;
-        this.totalGuests = totalGuests;
-        this.apartmentType = apartmentType;
-        isWaterAllotted = true;
+    public void allotWaterToTheApartment(ApartmentType apartmentType, int corporationShare, int totalShare) {
+        if (!this.isWaterAllotted) {
+            this.corporationShare = corporationShare;
+            this.totalShare = totalShare;
+            this.totalGuests = apartmentType.getNoOfPeople();
+            this.apartmentType = apartmentType;
+            isWaterAllotted = true;
+        } else
+            throw new WaterBillGenerationException("Water is already allocated to the apartment");
     }
 
     public void addGuests(int noOfGuestsToBeAdded) {

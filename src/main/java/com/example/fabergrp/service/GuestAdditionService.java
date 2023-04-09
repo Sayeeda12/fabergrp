@@ -17,8 +17,12 @@ public class GuestAdditionService implements OperationsService {
         if (!apartment.isWaterAllotted)
             throw new WaterBillGenerationException("Error: Cannot add guests as water isn't allocated to the apartment yet.");
 
-        int noOfGuestsToBeAdded = Integer.parseInt(args.get(0));
-        apartment.addGuests(noOfGuestsToBeAdded);
-        return null;
+        try {
+            int noOfGuestsToBeAdded = Math.max(Integer.parseInt(args.get(0)), 0); //If negative numbers are passed, it's considered as 0
+            apartment.addGuests(noOfGuestsToBeAdded);
+            return null;
+        } catch (Exception e) {
+            throw new WaterBillGenerationException("Error occurred while adding guests. Error message: " + e.getMessage());
+        }
     }
 }

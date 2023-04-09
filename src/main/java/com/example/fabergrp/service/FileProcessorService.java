@@ -35,7 +35,7 @@ public class FileProcessorService {
             //Prepare each command as an operation and collect into a list
             return bufferedReader.lines()
                     .filter(Objects::nonNull)
-                    .filter(line -> !line.isEmpty())
+                    .filter(line -> !line.isEmpty()) //Filter out empty lines in the file
                     .map(FileProcessorService::prepareCommand)
                     .collect(Collectors.toList());
 

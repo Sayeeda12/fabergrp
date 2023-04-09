@@ -9,25 +9,25 @@ public class FaberUtilsTest {
 
     @Test
     void testValidateFilePathForTextFile() throws IOException {
-        String path = "/Users/starannumr/Documents/Personal Learning/Express-APIs/g.txt";
+        String path = "test-files/test1.txt";
         assertEquals(path, FaberUtils.validateFilePathForTextFile(path));
     }
 
     @Test
     void testValidateFilePathForTextFile1() throws IOException {
-        String path = "/Users/starannumr/Documents/Personal Learning/Express-APIs/g.text";
+        String path = "test-files/test3.text";
         assertEquals(path, FaberUtils.validateFilePathForTextFile(path));
     }
 
     @Test
-    void testValidateFilePathForInvalidTextFile() throws IOException {
-        String path = "/Users/starannumr/Documents/Personal Learning/Express-APIs/g.txts";
+    void testValidateFilePathForInvalidTextFile() {
+        String path = "test1.txts";
         assertThrows(IOException.class, () -> FaberUtils.validateFilePathForTextFile(path));
     }
 
     @Test
-    void testValidateFilePathForInvalidTextFile1() throws IOException {
-        String path = "/Users/starannumr/Documents/Personal Learning/Express-APIs";
+    void testValidateFilePathForInvalidTextFile1() {
+        String path = "test-files";
         assertThrows(IOException.class, () -> FaberUtils.validateFilePathForTextFile(path));
     }
 }

@@ -7,5 +7,5 @@ import java.io.IOException;
 import java.util.List;
 
 public interface OperationsService {
-    String executeOperation(List<String> commands, Apartment apartment) throws WaterBillGenerationException;
+    String executeOperation(List<String> args, Apartment apartment) throws WaterBillGenerationException;
 }

@@ -21,11 +21,10 @@ public class FaberGrpApplication {
             System.out.println("2. URL");
             System.out.println("Enter your option followed by file path or URL. For URL, only raw text files will be processed." +
                                 " Please don't enclose file path around double quotes): ");
+
             String option = scanner.nextLine().equals("2") ? "URL" : "localFile";
             String fileInput = scanner.nextLine();
             String filePath = FaberUtils.validateFilePathForTextFile(fileInput);
-
-            //Enhance later for URL path or local path
 
             //Fetch commands based on inputs in the text file, process the commands
             List<Operation> operationsToBePerformedList = FileProcessorService.readFileAndGetCommands(option, filePath);
@@ -51,7 +50,6 @@ public class FaberGrpApplication {
             } else {
                 throw new IOException("Either the bill is not being generated (HINT: Add BILL command) (or) the water isn't allocated to the apartment yet");
             }
-
         } catch (IOException exception) {
             System.out.println("Exception occurred while processing the file, error message is : \""+exception.getMessage() + "\"");
         } catch (Exception e) {
