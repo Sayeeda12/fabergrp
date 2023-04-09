@@ -16,13 +16,16 @@ public class FaberGrpApplication {
         try {
             //Read the file, validate it
             Scanner scanner = new Scanner(System.in);
-//            System.out.println("Menu - Default is local file");
-//            System.out.println("1. Local file");
-//            System.out.println("2. URL");
-//            System.out.println("Enter your option followed by file path or URL. For URL, only raw text files will be processed." +
-//                                " Please don't enclose file path around double quotes): ");
-//
-//            String option = scanner.nextLine().equals("2") ? "URL" : "localFile";
+            /*
+            Commented code because skeptical if any string should be displayed
+            System.out.println("Menu - Default is local file");
+            System.out.println("1. Local file");
+            System.out.println("2. URL");
+            System.out.println("Enter your option followed by file path or URL. For URL, only raw text files will be processed." +
+                               " Please don't enclose file path around double quotes): ");
+
+            String option = scanner.nextLine().equals("2") ? "URL" : "localFile";
+             */
             String fileInput = scanner.nextLine();
             String filePath = FaberUtils.validateFilePathForTextFile(fileInput);
 
